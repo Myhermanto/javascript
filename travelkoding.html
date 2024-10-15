@@ -1,0 +1,148 @@
+<html>
+
+<head>
+    <title>TravelKoding</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>TravelKoding</h2>
+
+        <p>
+            <label>Nama Pelanggan</label>
+            <input type="text" id="nama" placeholder="Masukkan nama">
+        </p>
+
+        <p>
+            <label>Nomor HP</label>
+            <input type="text" id="nohp" placeholder="Masukkan nomor HP">
+        </p>
+
+        <p>
+            <label>Tujuan</label>
+            <select id="tujuan" onchange="updateTotal()">
+                <option value="175000">Singkawang - Rp 175.000</option>
+                <option value="225000">Sambas - Rp 225.000</option>
+                <option value="375000">Sintang - Rp 375.000</option>
+            </select>
+        </p>
+
+        <p>
+            <label>Jumlah Tiket</label>
+            <input type="number" id="jumlah" placeholder="Masukkan jumlah tiket" min="1" value="1"
+                oninput="updateTotal()">
+        </p>
+
+        <p>
+            <label>Total Bayar</label>
+            <input type="text" id="total" disabled>
+        </p>
+
+        <p>
+            <label>Uang Bayar</label>
+            <input type="number" id="bayar" placeholder="Masukkan uang bayar" oninput="updateKembalian()">
+        </p>
+
+        <p>
+            <label>Kembalian</label>
+            <input type="text" id="kembalian" disabled>
+        </p>
+
+        <button onclick="processOrder()">Simpan</button>
+
+        <div class="result" id="tampil"></div>
+    </div>
+
+    <script>
+        function updateTotal() {
+            var tujuan = document.getElementById('tujuan').value;
+            var jumlah = document.getElementById('jumlah').value;
+            var total = parseInt(tujuan) * parseInt(jumlah);
+            document.getElementById('total').value = total;
+        }
+
+        function updateKembalian() {
+            var total = parseInt(document.getElementById('total').value);
+            var bayar = parseInt(document.getElementById('bayar').value);
+            if (bayar) {
+                var kembalian = bayar - total;
+                document.getElementById('kembalian').value = kembalian >= 0 ? kembalian : 0;
+            }
+        }
+
+        function processOrder() {
+            var nama = document.getElementById('nama').value;
+            var nohp = document.getElementById('nohp').value;
+            var tujuan = document.getElementById('tujuan');
+            var price = parseInt(tujuan.value);
+            var destinationText = tujuan.options[tujuan.selectedIndex].text;
+            var jumlah = parseInt(document.getElementById('jumlah').value);
+            var total = parseInt(document.getElementById('total').value);
+            var bayar = parseInt(document.getElementById('bayar').value);
+            var kembalian = parseInt(document.getElementById('kembalian').value);
+
+            if (!nama || !nohp || !bayar || jumlah < 1) {
+                alert('Harap isi semua data dengan benar!');
+                return;
+            }
+
+            if (bayar < total) {
+                alert('Uang yang diberikan kurang!');
+                return;
+            }
+
+            var tampil = document.getElementById('tampil');
+            tampil.innerHTML = `
+            <h3>Bukti Pemesanan</h3>
+            <p>Nama: ${nama}</p>
+            <p>Nomor HP: ${nohp}</p>
+            <p>Tujuan: ${destinationText}</p>
+            <p>Jumlah Tiket: ${jumlah}</p>
+            <p>Total Bayar: Rp ${total}</p>
+            <p>Uang Bayar: Rp ${bayar}</p>
+            <p>Kembalian: Rp ${kembalian}</p>
+        `;
+
+            alert('Pemesanan berhasil disimpan!');
+        }
+    </script>
+
+</body>
+
+</html>
