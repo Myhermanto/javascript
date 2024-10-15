@@ -1,0 +1,29 @@
+<html>
+
+<head>
+    <title>Hitung Uang Kembalian</title>
+</head>
+
+<body>
+    <h2>Hitung Uang Kembalian</h2>
+    <label>Total Belanja:</label>
+    <input type="number" id="totalBelanja">
+
+    <label>Uang Bayar:</label>
+    <input type="number" id="uangBayar" oninput="hitungKembalian()">
+
+    <label>Uang Kembalian:</label>
+    <input type="number" id="uangKembalian" readonly>
+
+    <script>
+        function hitungKembalian() {
+            var totalBelanja = parseFloat(document.getElementById('totalBelanja').value);
+            var uangBayar = parseFloat(document.getElementById('uangBayar').value);
+            var kembalian = uangBayar - totalBelanja;
+
+            document.getElementById('uangKembalian').value = kembalian;
+        }
+    </script>
+</body>
+
+</html>
